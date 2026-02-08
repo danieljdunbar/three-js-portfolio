@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 interface InfoModalProps {
     title: string;
     description: string;
-    url: string;
+    url?: string;
     onClose: () => void;
 }
 
@@ -49,18 +49,20 @@ export default function InfoModal({ title, description, url, onClose }: InfoModa
                     </svg>
                 </button>
 
-                <div className="flex flex-col md:flex-row gap-8">
-                    {/* Image Preview */}
-                    <div className="w-full md:w-1/2 aspect-square bg-black/50 relative overflow-hidden border border-white/5">
-                        <img
-                            src={url}
-                            alt={title}
-                            className="w-full h-full object-cover"
-                        />
-                    </div>
+                <div className={`flex flex-col ${url ? 'md:flex-row' : ''} gap-8`}>
+                    {/* Image Preview - Only if URL is present */}
+                    {url && (
+                        <div className="w-full md:w-1/2 aspect-square bg-black/50 relative overflow-hidden border border-white/5">
+                            <img
+                                src={url}
+                                alt={title}
+                                className="w-full h-full object-cover"
+                            />
+                        </div>
+                    )}
 
                     {/* Text Content */}
-                    <div className="w-full md:w-1/2 flex flex-col justify-center">
+                    <div className={`w-full ${url ? 'md:w-1/2' : ''} flex flex-col justify-center`}>
                         <h2 className="text-3xl font-bold text-white mb-2 tracking-tighter">{title}</h2>
                         <div className="h-1 w-12 bg-indigo-500 mb-6" />
                         <p className="text-gray-300 leading-relaxed text-sm md:text-base">

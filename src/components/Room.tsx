@@ -44,7 +44,7 @@ export default function Room({
                 rotation={[Math.PI / 2, 0, 0]}
                 position={[0, height, 0]}
             >
-                <meshStandardMaterial color="#0a0a0a" roughness={1} />
+                <meshStandardMaterial color={color} roughness={1} />
             </Plane>
 
             {/* Walls */}
