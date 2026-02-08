@@ -7,7 +7,7 @@ import GalleryWall from "./GalleryWall";
 import useScene from "./hooks/useScene";
 import WallWithHole from "./WallWithHole";
 import Pedestal from "./Pedestal";
-import { WEST_GALLERY_ART } from "./const";
+import { NORTH_GALLERY_ART, SOUTH_GALLERY_ART, WEST_GALLERY_ART } from "./const";
 
 interface SceneProps {
     onArtSelect: (data: { title: string; description: string; url: string }) => void;
@@ -41,24 +41,6 @@ export default function Scene({ onArtSelect, onShowInstructions }: SceneProps) {
             <Room {...layout.roomRight} hasWallLeft={false}>
                 <WallWithHole {...roomWalls.rightWingWall} />
 
-                <ArtPiece
-                    position={[0, 6, -5.9]}
-                    rotation={[0, 0, 0]}
-                    url="/images/art1.png"
-                    scale={[6, 6]}
-                    data={{
-                        title: "Neon Dreams",
-                        description: "A vibrant exploration of synthetic life in a digital metropolis. The interplay of neon lights and shadows questions the boundary between the artificial and the real."
-                    }}
-                    onSelect={onArtSelect}
-                />
-                <Float speed={2} rotationIntensity={1} floatIntensity={2}>
-                    <mesh position={[0, 8, 0]}>
-                        <octahedronGeometry args={[4, 0]} />
-                        <meshStandardMaterial color="#6366f1" emissive="#6366f1" emissiveIntensity={2} wireframe />
-                    </mesh>
-                </Float>
-
                 <mesh position={[0, 2, 0]}>
                     <torusKnotGeometry args={[1.5, 0.4, 128, 16]} />
                     <meshStandardMaterial color="#10b981" roughness={0.2} metalness={0.8} />
@@ -73,12 +55,26 @@ export default function Scene({ onArtSelect, onShowInstructions }: SceneProps) {
             {/* Room Left: Art Gallery 2 */}
             < Room {...layout.roomLeft} hasWallRight={false} >
                 <WallWithHole {...roomWalls.leftWingWall} />
+
                 <GalleryWall
                     artData={WEST_GALLERY_ART}
                     position={[-19.9, 6, 0]}
                     rotation={[0, Math.PI / 2, 0]}
                     onArtSelect={onArtSelect}
                 />
+                <GalleryWall
+                    artData={NORTH_GALLERY_ART}
+                    position={[0, 6, -19.9]}
+                    rotation={[0, 0, 0]}
+                    onArtSelect={onArtSelect}
+                />
+                <GalleryWall
+                    artData={SOUTH_GALLERY_ART}
+                    position={[0, 6, 19.9]}
+                    rotation={[0, Math.PI, 0]}
+                    onArtSelect={onArtSelect}
+                />
+
                 <pointLight position={[0, 10, 0]} intensity={2.5} color="#ffffff" />
             </Room >
 
@@ -139,7 +135,7 @@ export default function Scene({ onArtSelect, onShowInstructions }: SceneProps) {
                     onSelect={onArtSelect}
                 />
 
-                <pointLight position={[0, 8, 0]} intensity={3} color="#6366f1" distance={30} />
+                <pointLight position={[0, 10, 0]} intensity={2.5} color="#ffffff" />
             </Room >
 
             <Grid
