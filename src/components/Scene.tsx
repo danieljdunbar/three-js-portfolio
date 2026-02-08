@@ -6,7 +6,12 @@ import ArtPiece from "./ArtPiece";
 import useScene from "./hooks/useScene";
 import WallWithHole from "./WallWithHole";
 
-export default function Scene() {
+interface SceneProps {
+    onArtSelect: (data: { title: string; description: string; url: string }) => void;
+}
+
+export default function Scene({ onArtSelect }: SceneProps) {
+
     const { layout, entryWalls, roomWalls } = useScene();
 
     return (
@@ -39,6 +44,11 @@ export default function Scene() {
                     rotation={[0, 0, 0]}
                     url="/images/art1.png"
                     scale={[6, 6]}
+                    data={{
+                        title: "Neon Dreams",
+                        description: "A vibrant exploration of synthetic life in a digital metropolis. The interplay of neon lights and shadows questions the boundary between the artificial and the real."
+                    }}
+                    onSelect={onArtSelect}
                 />
                 <pointLight position={[0, 10, 0]} intensity={2.5} color="#ffffff" />
             </Room>
@@ -54,6 +64,11 @@ export default function Scene() {
                     rotation={[0, 0, 0]}
                     url="/images/art2.png"
                     scale={[6, 6]}
+                    data={{
+                        title: "Abstract Thought",
+                        description: "Complex patterns emerging from simple rules, representing the chaotic yet structured nature of human cognition."
+                    }}
+                    onSelect={onArtSelect}
                 />
                 <pointLight position={[0, 10, 0]} intensity={2.5} color="#ffffff" />
             </Room>

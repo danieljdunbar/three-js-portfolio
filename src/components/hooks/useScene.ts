@@ -5,6 +5,7 @@ import { useRef, useState, useEffect, useMemo } from "react";
 import * as THREE from "three";
 import { color, roughness } from "three/tsl";
 import WallWithHole, { WallWithHoleProps } from "../WallWithHole";
+import { FirstPersonControls } from 'three/addons/controls/FirstPersonControls.js';
 
 interface Layout {
     position: [number, number, number];
@@ -220,11 +221,11 @@ export default function useScene() {
             switch (e.code) {
                 case 'KeyW':
                 case 'ArrowUp':
-                    setMovement(m => ({ ...m, moveBackward: true }));
+                    setMovement(m => ({ ...m, moveForward: true }));
                     break;
                 case 'KeyS':
                 case 'ArrowDown':
-                    setMovement(m => ({ ...m, moveForward: true }));
+                    setMovement(m => ({ ...m, moveBackward: true }));
                     break;
                 case 'KeyA':
                 case 'ArrowLeft':
@@ -240,11 +241,11 @@ export default function useScene() {
             switch (e.code) {
                 case 'KeyW':
                 case 'ArrowUp':
-                    setMovement(m => ({ ...m, moveBackward: false }));
+                    setMovement(m => ({ ...m, moveForward: false }));
                     break;
                 case 'KeyS':
                 case 'ArrowDown':
-                    setMovement(m => ({ ...m, moveForward: false }));
+                    setMovement(m => ({ ...m, moveBackward: false }));
                     break;
                 case 'KeyA':
                 case 'ArrowLeft':

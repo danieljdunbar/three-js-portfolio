@@ -2,16 +2,19 @@
 
 import { Canvas } from "@react-three/fiber";
 import { Sky, ContactShadows, Environment } from "@react-three/drei";
+import { useState } from "react";
+import InfoModal from "./InfoModal";
 import Scene from "./Scene";
 
 export default function Experience() {
+    const [selectedArt, setSelectedArt] = useState<{ title: string; description: string; url: string } | null>(null);
     return (
         <div className="w-full h-screen bg-[#050505]">
             <Canvas shadows camera={{ position: [0, 2, 5], fov: 75 }}>
                 <Sky sunPosition={[100, 20, 100]} />
                 <Environment preset="city" />
                 <ambientLight intensity={0.5} />
-                <Scene />
+                <Scene onArtSelect={setSelectedArt} />
                 <ContactShadows
                     position={[0, -0.01, 0]}
                     opacity={0.4}
@@ -26,6 +29,14 @@ export default function Experience() {
                     Click to explore • WASD to move • Mouse to look
                 </p>
             </div>
+            {selectedArt && (
+                <InfoModal
+                    title={selectedArt.title}
+                    description={selectedArt.description}
+                    url={selectedArt.url}
+                    onClose={() => setSelectedArt(null)}
+                />
+            )}
         </div>
     );
 }
