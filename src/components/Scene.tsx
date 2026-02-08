@@ -3,9 +3,11 @@
 import { PointerLockControls, Grid, Text, Float } from "@react-three/drei";
 import Room from "./Room";
 import ArtPiece from "./ArtPiece";
+import GalleryWall from "./GalleryWall";
 import useScene from "./hooks/useScene";
 import WallWithHole from "./WallWithHole";
 import Pedestal from "./Pedestal";
+import { WEST_GALLERY_ART } from "./const";
 
 interface SceneProps {
     onArtSelect: (data: { title: string; description: string; url: string }) => void;
@@ -71,16 +73,11 @@ export default function Scene({ onArtSelect, onShowInstructions }: SceneProps) {
             {/* Room Left: Art Gallery 2 */}
             < Room {...layout.roomLeft} hasWallRight={false} >
                 <WallWithHole {...roomWalls.leftWingWall} />
-                <ArtPiece
-                    position={[0, 6, -5.9]}
-                    rotation={[0, 0, 0]}
-                    url="/images/art2.png"
-                    scale={[6, 6]}
-                    data={{
-                        title: "Abstract Thought",
-                        description: "Complex patterns emerging from simple rules, representing the chaotic yet structured nature of human cognition."
-                    }}
-                    onSelect={onArtSelect}
+                <GalleryWall
+                    artData={WEST_GALLERY_ART}
+                    position={[-19.9, 6, 0]}
+                    rotation={[0, Math.PI / 2, 0]}
+                    onArtSelect={onArtSelect}
                 />
                 <pointLight position={[0, 10, 0]} intensity={2.5} color="#ffffff" />
             </Room >
