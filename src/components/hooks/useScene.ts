@@ -1,6 +1,6 @@
 "use client";
 
-import { useFrame } from "@react-three/fiber";
+import { useFrame, useThree } from "@react-three/fiber";
 import { useRef, useState, useEffect, useMemo } from "react";
 import * as THREE from "three";
 import { color, roughness } from "three/tsl";
@@ -26,9 +26,20 @@ const OVERLAP = 1; // Overlap for seamless collisions (must be > 2 * collision b
 const COLLISION_BUFFER = 0.5; // Collision buffer for player movement
 
 export default function useScene() {
+    const { camera } = useThree();
     const controlsRef = useRef<any>(null);
+
+    // Initial Look Direction
+    useEffect(() => {
+        // Set initial camera rotation to look down the corridor
+        // You can change these values to change the initial direction.
+        // For example, to look left, try camera.lookAt(-10, 2, 0);
+
+        // Look straight ahead (down -Z)
+        camera.lookAt(0, 2, -10);
+    }, [camera]);
     const [movement, setMovement] = useState({
-        moveForward: false, moveBackward: false, moveLeft: false, moveRight: false
+        moveForward: false, moveBackward: false, rotateLeft: false, rotateRight: false
     });
 
     const velocity = useRef(new THREE.Vector3());
@@ -217,11 +228,11 @@ export default function useScene() {
                     break;
                 case 'KeyA':
                 case 'ArrowLeft':
-                    setMovement(m => ({ ...m, moveLeft: true }));
+                    setMovement(m => ({ ...m, rotateLeft: true }));
                     break;
                 case 'KeyD':
                 case 'ArrowRight':
-                    setMovement(m => ({ ...m, moveRight: true }));
+                    setMovement(m => ({ ...m, rotateRight: true }));
                     break;
             }
         };
@@ -237,11 +248,11 @@ export default function useScene() {
                     break;
                 case 'KeyA':
                 case 'ArrowLeft':
-                    setMovement(m => ({ ...m, moveLeft: false }));
+                    setMovement(m => ({ ...m, rotateLeft: false }));
                     break;
                 case 'KeyD':
                 case 'ArrowRight':
-                    setMovement(m => ({ ...m, moveRight: false }));
+                    setMovement(m => ({ ...m, rotateRight: false }));
                     break;
             }
         };
@@ -277,39 +288,51 @@ export default function useScene() {
     };
 
     useFrame((state, delta) => {
-        const controls = controlsRef.current;
-        if (!controls || !controls.isLocked) return;
-
-        const { moveForward, moveBackward, moveLeft, moveRight } = movement;
+        const { moveForward, moveBackward, rotateLeft, rotateRight } = movement;
 
         direction.current.z = Number(moveForward) - Number(moveBackward);
-        direction.current.x = Number(moveRight) - Number(moveLeft);
         direction.current.normalize();
 
         const speed = 10;
-        const friction = 0.9;
+        const rotationSpeed = 2.0;
 
-        if (moveForward || moveBackward) velocity.current.z = -direction.current.z * speed;
-        else velocity.current.z *= friction;
+        // Rotation
+        if (rotateLeft) {
+            state.camera.rotation.y += rotationSpeed * delta;
+        }
+        if (rotateRight) {
+            state.camera.rotation.y -= rotationSpeed * delta;
+        }
 
-        if (moveLeft || moveRight) velocity.current.x = direction.current.x * speed;
-        else velocity.current.x *= friction;
+        // Movement
+        if (moveForward || moveBackward) {
+            // Get forward vector from camera rotation
+            const forward = new THREE.Vector3(0, 0, -1);
+            forward.applyEuler(state.camera.rotation);
+            forward.y = 0; // Keep movement on the ground plane
+            forward.normalize();
 
-        // Predict next position
-        const prevPosition = state.camera.position.clone();
+            velocity.current.copy(forward).multiplyScalar(speed * direction.current.z * delta); // Invert Z because forward is -Z
 
-        // Move horizontally
-        controls.moveRight(velocity.current.x * delta);
-        controls.moveForward(velocity.current.z * delta);
+            // Predict next position
+            const prevPosition = state.camera.position.clone();
 
-        // Check collision
-        if (!checkCollisions(state.camera.position)) {
-            state.camera.position.copy(prevPosition);
+            // Move
+            // Note: direction.z is 1 for Forward (which means moving in -Z local space)
+            // But our logic above: forward vector is -Z. 
+            // If moveForward is true, direction.z is 1. We want to move along forward vector.
+            // So we just add velocity.
+            state.camera.position.add(velocity.current);
+
+            // Check collision
+            if (!checkCollisions(state.camera.position)) {
+                state.camera.position.copy(prevPosition);
+            }
         }
     });
 
     return {
-        controlsRef,
+        // controlsRef, // Removed
         movement,
         setMovement,
         layout,

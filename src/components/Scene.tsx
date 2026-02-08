@@ -7,11 +7,10 @@ import useScene from "./hooks/useScene";
 import WallWithHole from "./WallWithHole";
 
 export default function Scene() {
-    const { layout, entryWalls, roomWalls, controlsRef } = useScene();
+    const { layout, entryWalls, roomWalls } = useScene();
 
     return (
         <>
-            <PointerLockControls ref={controlsRef} />
 
             {/* Room 1: The Entry */}
             {/* We render the floor/ceiling using Room, but disable ALL walls because we render custom segments */}
