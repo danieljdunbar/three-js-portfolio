@@ -5,10 +5,12 @@ import { Sky, ContactShadows, Environment } from "@react-three/drei";
 import { useState } from "react";
 import InfoModal from "./InfoModal";
 import Scene from "./Scene";
+import TicTacToeModal from "./TicTacToeModal";
 
 export default function Experience() {
     const [selectedArt, setSelectedArt] = useState<{ title: string; description: string; url: string } | null>(null);
     const [showInstructions, setShowInstructions] = useState(false);
+    const [showTicTacToe, setShowTicTacToe] = useState(false);
 
     return (
         <div className="w-full h-screen bg-[#050505]">
@@ -19,6 +21,7 @@ export default function Experience() {
                 <Scene
                     onArtSelect={setSelectedArt}
                     onShowInstructions={() => setShowInstructions(true)}
+                    onOpenTicTacToe={() => setShowTicTacToe(true)}
                 />
                 <ContactShadows
                     position={[0, -0.01, 0]}
@@ -48,6 +51,9 @@ export default function Experience() {
                     description="Welcome to the gallery! Use WASD or Arrow Keys to move around. Use your mouse to look freely. Click on art pieces to view details. Walk through corridors to explore different rooms."
                     onClose={() => setShowInstructions(false)}
                 />
+            )}
+            {showTicTacToe && (
+                <TicTacToeModal onClose={() => setShowTicTacToe(false)} />
             )}
         </div>
     );

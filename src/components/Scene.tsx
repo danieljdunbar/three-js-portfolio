@@ -8,13 +8,15 @@ import useScene from "./hooks/useScene";
 import WallWithHole from "./WallWithHole";
 import Pedestal from "./Pedestal";
 import { NORTH_GALLERY_ART, SOUTH_GALLERY_ART, WEST_GALLERY_ART } from "./const";
+import ArcadeModel from "./ArcadeModel";
 
 interface SceneProps {
     onArtSelect: (data: { title: string; description: string; url: string }) => void;
     onShowInstructions: () => void;
+    onOpenTicTacToe: () => void;
 }
 
-export default function Scene({ onArtSelect, onShowInstructions }: SceneProps) {
+export default function Scene({ onArtSelect, onShowInstructions, onOpenTicTacToe }: SceneProps) {
 
     const { layout, entryWalls, roomWalls } = useScene();
 
@@ -41,10 +43,14 @@ export default function Scene({ onArtSelect, onShowInstructions }: SceneProps) {
             <Room {...layout.roomRight} hasWallLeft={false}>
                 <WallWithHole {...roomWalls.rightWingWall} />
 
-                <mesh position={[0, 2, 0]}>
-                    <torusKnotGeometry args={[1.5, 0.4, 128, 16]} />
-                    <meshStandardMaterial color="#10b981" roughness={0.2} metalness={0.8} />
-                </mesh>
+                <ArcadeModel
+                    position={[0, 0, 0]}
+                    scale={[0.05, 0.05, 0.05]}
+                    rotation={[-Math.PI / 2, 0, Math.PI]}
+                    onClick={onOpenTicTacToe}
+                    onPointerOver={() => document.body.style.cursor = "pointer"}
+                    onPointerOut={() => document.body.style.cursor = "auto"}
+                />
 
                 <pointLight position={[0, 10, 0]} intensity={2.5} color="#ffffff" />
             </Room >
