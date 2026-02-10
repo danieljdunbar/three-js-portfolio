@@ -10,14 +10,18 @@ import Pedestal from "./Pedestal";
 import { EDUCATION_ART, GOOGLE_ART, HEALTHYMIND_ART, MEMORA_HEALTH_ART, NORTH_GALLERY_ART, PELOTON_ART, SKILLS_ART, SOUTH_GALLERY_ART, WEST_GALLERY_ART } from "./artPieces";
 import ArcadeModel from "./ArcadeModel";
 
+import { MovementState } from "./types";
+
 interface SceneProps {
     onArtSelect: (data: { title: string; description: string; url: string }) => void;
     onShowInstructions: () => void;
     onOpenTicTacToe: () => void;
+    movement: MovementState;
+    setMovement: React.Dispatch<React.SetStateAction<MovementState>>;
 }
 
-export default function Scene({ onArtSelect, onShowInstructions, onOpenTicTacToe }: SceneProps) {
-    const { layout, entryWalls, roomWalls } = useScene();
+export default function Scene({ onArtSelect, onShowInstructions, onOpenTicTacToe, movement, setMovement }: SceneProps) {
+    const { layout, entryWalls, roomWalls } = useScene(movement, setMovement);
 
     return (
         <>

@@ -24,7 +24,12 @@ const roomSizes: Record<string, [number, number, number]> = {
 const OVERLAP = 1; // Overlap for seamless collisions (must be > 2 * collision buffer)
 const COLLISION_BUFFER = 0.5; // Collision buffer for player movement
 
-export default function useScene() {
+import { MovementState } from "../types";
+
+export default function useScene(
+    movement: MovementState,
+    setMovement: React.Dispatch<React.SetStateAction<MovementState>>
+) {
     const { camera } = useThree();
     const controlsRef = useRef<any>(null);
 
@@ -37,9 +42,10 @@ export default function useScene() {
         // Look straight ahead (down -Z)
         camera.lookAt(0, 2, -10);
     }, [camera]);
-    const [movement, setMovement] = useState({
-        moveForward: false, moveBackward: false, rotateLeft: false, rotateRight: false
-    });
+    // State is now passed in
+    // const [movement, setMovement] = useState({
+    //     moveForward: false, moveBackward: false, rotateLeft: false, rotateRight: false
+    // });
 
     const velocity = useRef(new THREE.Vector3());
     const direction = useRef(new THREE.Vector3());

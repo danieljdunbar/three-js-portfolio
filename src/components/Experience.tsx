@@ -8,13 +8,18 @@ import Scene from "./Scene";
 import SocialLinks from "./SocialLinks";
 import TicTacToeModal from "./TicTacToeModal";
 
+import TouchControls from "./TouchControls";
+
 export default function Experience() {
     const [selectedArt, setSelectedArt] = useState<{ title: string; description: string; url: string } | null>(null);
     const [showInstructions, setShowInstructions] = useState(false);
     const [showTicTacToe, setShowTicTacToe] = useState(false);
+    const [movement, setMovement] = useState({
+        moveForward: false, moveBackward: false, rotateLeft: false, rotateRight: false
+    });
 
     return (
-        <div className="w-full h-screen bg-[#050505]">
+        <div className="w-full h-screen bg-[#050505] relative">
             <Canvas shadows camera={{ position: [0, 2, 5], fov: 75 }}>
                 {/* <Sky sunPosition={[100, 20, 100]} /> */}
                 <Environment preset="city" />
@@ -23,6 +28,8 @@ export default function Experience() {
                     onArtSelect={setSelectedArt}
                     onShowInstructions={() => setShowInstructions(true)}
                     onOpenTicTacToe={() => setShowTicTacToe(true)}
+                    movement={movement}
+                    setMovement={setMovement}
                 />
                 <ContactShadows
                     position={[0, -0.01, 0]}
@@ -32,6 +39,7 @@ export default function Experience() {
                     far={4.5}
                 />
             </Canvas>
+            <TouchControls setMovement={setMovement} />
             <SocialLinks />
             {selectedArt && (
                 <InfoModal

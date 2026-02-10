@@ -9,3 +9,10 @@ export interface ArtDetails {
     description: string;
     url: string;
 }
+
+export interface MovementState {
+    moveForward: boolean;
+    moveBackward: boolean;
+    rotateLeft: boolean;
+    rotateRight: boolean;
+}
