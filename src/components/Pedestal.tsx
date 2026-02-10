@@ -32,7 +32,7 @@ export default function Pedestal({ position, onClick }: PedestalProps) {
             <mesh
                 ref={meshRef}
                 position={[0, 2.5, 0]}
-                onClick={onClick}
+                onClick={(e) => { e.stopPropagation(); onClick(); }}
                 onPointerOver={() => {
                     setHover(true);
                     document.body.style.cursor = "pointer";

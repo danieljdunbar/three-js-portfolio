@@ -14,6 +14,7 @@ export default function TicTacToeModal({ onClose }: TicTacToeModalProps) {
     const [board, setBoard] = useState<Cell[]>(Array(9).fill(null));
     const [currentPlayer, setCurrentPlayer] = useState<Player>("X");
     const [winner, setWinner] = useState<Player | "Draw" | null>(null);
+    const [isComputerTurn, setIsComputerTurn] = useState(false);
 
     useEffect(() => {
         setIsVisible(true);
@@ -46,8 +47,44 @@ export default function TicTacToeModal({ onClose }: TicTacToeModalProps) {
         return null;
     };
 
+    const makeComputerMove = () => {
+        if (winner || !board.includes(null)) return;
+
+        // Simple Random Strategy
+        let moveIndex = -1;
+
+        const emptyIndices = board.map((cell, index) => cell === null ? index : null).filter(val => val !== null) as number[];
+        if (emptyIndices.length > 0) {
+            moveIndex = emptyIndices[Math.floor(Math.random() * emptyIndices.length)];
+        }
+
+        if (moveIndex !== -1) {
+            const newBoard = [...board];
+            newBoard[moveIndex] = "O";
+            setBoard(newBoard);
+
+            const newWinner = checkWinner(newBoard);
+            if (newWinner) {
+                setWinner(newWinner);
+            } else if (!newBoard.includes(null)) {
+                setWinner("Draw");
+            } else {
+                setCurrentPlayer("X");
+            }
+        }
+        setIsComputerTurn(false);
+    };
+
+    useEffect(() => {
+        if (currentPlayer === "O" && !winner) {
+            setIsComputerTurn(true);
+            const timer = setTimeout(makeComputerMove, 500); // Delay for better UX
+            return () => clearTimeout(timer);
+        }
+    }, [currentPlayer, winner, board]);
+
     const handleCellClick = (index: number) => {
-        if (board[index] || winner) return;
+        if (board[index] || winner || isComputerTurn) return;
 
         const newBoard = [...board];
         newBoard[index] = currentPlayer;
