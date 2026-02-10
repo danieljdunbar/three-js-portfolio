@@ -5,6 +5,7 @@ import { Sky, ContactShadows, Environment } from "@react-three/drei";
 import { useState } from "react";
 import InfoModal from "./InfoModal";
 import Scene from "./Scene";
+import SocialLinks from "./SocialLinks";
 import TicTacToeModal from "./TicTacToeModal";
 
 export default function Experience() {
@@ -31,12 +32,7 @@ export default function Experience() {
                     far={4.5}
                 />
             </Canvas>
-            <div className="absolute top-10 left-10 pointer-events-none text-white/80">
-                <h1 className="text-4xl font-bold tracking-tighter mb-2">Daniel's Gallery</h1>
-                <p className="text-sm uppercase tracking-[0.2em] font-medium opacity-50">
-                    WASD to move • Click to interact
-                </p>
-            </div>
+            <SocialLinks />
             {selectedArt && (
                 <InfoModal
                     title={selectedArt.title}
