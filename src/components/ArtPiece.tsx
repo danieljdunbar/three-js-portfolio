@@ -1,20 +1,17 @@
 "use client";
 
-import { Image as DreiImage } from "@react-three/drei";
+import { Image as DreiImage, Text } from "@react-three/drei";
+import { ArtDetails } from "./types";
 
 interface ArtPieceProps {
     position: [number, number, number];
     rotation: [number, number, number];
-    url: string;
     scale?: [number, number];
-    data?: {
-        title: string;
-        description: string;
-    };
-    onSelect?: (data: { title: string; description: string; url: string }) => void;
+    details: ArtDetails;
+    onSelect: (data: ArtDetails) => void;
 }
 
-export default function ArtPiece({ position, rotation, url, scale = [3, 3], data, onSelect }: ArtPieceProps) {
+export default function ArtPiece({ position, rotation, scale = [3, 3], details, onSelect }: ArtPieceProps) {
     const handlePointerOver = () => {
         document.body.style.cursor = "pointer";
     };
@@ -24,8 +21,8 @@ export default function ArtPiece({ position, rotation, url, scale = [3, 3], data
     };
 
     const handleClick = () => {
-        if (onSelect && data) {
-            onSelect({ ...data, url });
+        if (onSelect && details) {
+            onSelect(details);
         }
     };
     return (
@@ -44,7 +41,19 @@ export default function ArtPiece({ position, rotation, url, scale = [3, 3], data
             </mesh>
 
             {/* Art */}
-            <DreiImage url={url} scale={scale} toneMapped={false} />
+            <DreiImage url={details?.url} scale={scale} toneMapped={false} />
+
+            {/* Title */}
+            <Text
+                position={[0, -scale[1] / 2 - 0.6, 0.05]}
+                fontSize={0.3}
+                color="black"
+                anchorX="center"
+                anchorY="top"
+                maxWidth={scale[0]}
+            >
+                {details?.title}
+            </Text>
         </group>
     );
 }

@@ -3,9 +3,7 @@
 import { useFrame, useThree } from "@react-three/fiber";
 import { useRef, useState, useEffect, useMemo } from "react";
 import * as THREE from "three";
-import { color, roughness } from "three/tsl";
-import WallWithHole, { WallWithHoleProps } from "../WallWithHole";
-import { FirstPersonControls } from 'three/addons/controls/FirstPersonControls.js';
+import { WallWithHoleProps } from "../WallWithHole";
 
 interface Layout {
     position: [number, number, number];
@@ -16,7 +14,7 @@ interface Layout {
 const roomSizes: Record<string, [number, number, number]> = {
     entry: [20, 12, 20],
     corrRight: [15, 12, 5],
-    roomRight: [40, 12, 40],
+    roomRight: [20, 12, 20],
     corrLeft: [15, 12, 5],
     roomLeft: [40, 12, 40],
     corrFront: [5, 12, 15],

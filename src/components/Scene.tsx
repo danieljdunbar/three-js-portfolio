@@ -7,7 +7,7 @@ import GalleryWall from "./GalleryWall";
 import useScene from "./hooks/useScene";
 import WallWithHole from "./WallWithHole";
 import Pedestal from "./Pedestal";
-import { NORTH_GALLERY_ART, SOUTH_GALLERY_ART, WEST_GALLERY_ART } from "./const";
+import { EDUCATION_ART, GOOGLE_ART, HEALTHYMIND_ART, MEMORA_HEALTH_ART, NORTH_GALLERY_ART, PELOTON_ART, SKILLS_ART, SOUTH_GALLERY_ART, WEST_GALLERY_ART } from "./artPieces";
 import ArcadeModel from "./ArcadeModel";
 
 interface SceneProps {
@@ -17,7 +17,6 @@ interface SceneProps {
 }
 
 export default function Scene({ onArtSelect, onShowInstructions, onOpenTicTacToe }: SceneProps) {
-
     const { layout, entryWalls, roomWalls } = useScene();
 
     return (
@@ -95,23 +94,15 @@ export default function Scene({ onArtSelect, onShowInstructions, onOpenTicTacToe
                 <ArtPiece
                     position={[-9, 6, -19.9]}
                     rotation={[0, 0, 0]}
-                    url="/images/art3.png"
-                    scale={[10, 10]}
-                    data={{
-                        title: "Peloton",
-                        description: "A visualization of AI awareness emerging from the void."
-                    }}
+                    scale={[8, 8]}
+                    details={PELOTON_ART}
                     onSelect={onArtSelect}
                 />
                 <ArtPiece
                     position={[9, 6, -19.9]}
                     rotation={[0, 0, 0]}
-                    url="/images/art4.png"
-                    scale={[10, 10]}
-                    data={{
-                        title: "Memora Health",
-                        description: "An entity traversing the spaces between dimensions."
-                    }}
+                    scale={[8, 8]}
+                    details={MEMORA_HEALTH_ART}
                     onSelect={onArtSelect}
                 />
 
@@ -119,12 +110,8 @@ export default function Scene({ onArtSelect, onShowInstructions, onOpenTicTacToe
                 <ArtPiece
                     position={[-19.9, 6, 0]}
                     rotation={[0, Math.PI / 2, 0]}
-                    url="/images/art5.png"
-                    scale={[10, 10]}
-                    data={{
-                        title: "Healthymind",
-                        description: "Mathematical perfection manifested in golden geometry."
-                    }}
+                    scale={[8, 8]}
+                    details={HEALTHYMIND_ART}
                     onSelect={onArtSelect}
                 />
 
@@ -132,12 +119,24 @@ export default function Scene({ onArtSelect, onShowInstructions, onOpenTicTacToe
                 <ArtPiece
                     position={[19.9, 6, 0]}
                     rotation={[0, -Math.PI / 2, 0]}
-                    url="/images/art6.png"
-                    scale={[10, 10]}
-                    data={{
-                        title: "Google",
-                        description: "The raw energy of speed captured in a static moment."
-                    }}
+                    scale={[8, 8]}
+                    details={GOOGLE_ART}
+                    onSelect={onArtSelect}
+                />
+
+                {/* Art on entrance walls */}
+                <ArtPiece
+                    position={[10, 6, 18.9]}
+                    rotation={[0, Math.PI, 0]}
+                    scale={[5, 5]}
+                    details={SKILLS_ART}
+                    onSelect={onArtSelect}
+                />
+                <ArtPiece
+                    position={[-10, 6, 18.9]}
+                    rotation={[0, Math.PI, 0]}
+                    scale={[5, 5]}
+                    details={EDUCATION_ART}
                     onSelect={onArtSelect}
                 />
 
