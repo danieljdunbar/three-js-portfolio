@@ -35,6 +35,9 @@ export default function TouchControls({ setMovement }: TouchControlsProps) {
         justifyContent: 'center',
         alignItems: 'center',
         userSelect: 'none',
+        WebkitUserSelect: 'none',
+        WebkitTouchCallout: 'none',
+        WebkitTapHighlightColor: 'transparent',
         pointerEvents: 'auto',
         touchAction: 'none',
         backdropFilter: 'blur(4px)',
@@ -56,6 +59,9 @@ export default function TouchControls({ setMovement }: TouchControlsProps) {
             e.preventDefault();
             e.stopPropagation();
             setMovement((m) => ({ ...m, [action]: false }));
+        },
+        onContextMenu: (e: React.MouseEvent) => {
+            e.preventDefault();
         },
     });
 

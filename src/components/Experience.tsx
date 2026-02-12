@@ -52,7 +52,7 @@ export default function Experience() {
             {showInstructions && (
                 <InfoModal
                     title="Welcome to my gallery!"
-                    description="This is a little gallery about me. Click on the art pieces to view details. In the North room you will find details related to work experience, in the West room you will can get a bit more of a glimpse into me and my personal life, and in the East room there is a fun little game you can play!"
+                    description="This is a little gallery about me. Click on the art pieces to view details. In the North room you will find details related to work experience, in the West room you will can get a bit more of a glimpse into me and my personal life, and in the East room there is a fun little game you can play! Also I am still making some changes so check back soon!"
                     onClose={() => setShowInstructions(false)}
                 />
             )}
